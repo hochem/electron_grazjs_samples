@@ -1,10 +1,11 @@
 {
   "name": "electron-quick-start",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
+    "start": "electron . --enable-logging",
+    "dev": "NODE_ENV='development' npm run start",
     "pack": "build --dir",
     "dist": "build"
   },
