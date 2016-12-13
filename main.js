@@ -1,6 +1,7 @@
 const electron = require('electron')
 // Module to control application life.
 const app = electron.app
+const ipcMain = electron.ipcMain;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
 
@@ -37,7 +38,20 @@ function createWindow () {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+app.on('ready', () => {
+  createWindow();
+
+  ipcMain.on('asynchronous-message', (event, arg) => {
+    console.log(arg)  // prints "ping"
+    event.sender.send('asynchronous-reply', 'pong')
+  })
+
+  ipcMain.on('synchronous-message', (event, arg) => {
+    console.log(arg)  // prints "ping"
+    event.returnValue = 'pong'
+  })
+
+})
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
